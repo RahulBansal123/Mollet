@@ -1,20 +1,13 @@
 import "@fluencelabs/aqua-lib/builtin.aqua"
 
 service MonitorService("HelloPeer"):
-    monitor(address: string) -> bool
-    message(message: string) -> string
-    return(result: string)
-
-func startMonitoring(peerId: PeerId, relayId: PeerId, address: string) -> bool:
+    message(message: string)
+    returnResult(result: string)
+    
+func sendMessage(peerId: PeerId, relayId: PeerId, message: string):
     on peerId via relayId:
-        res <- MonitorService.monitor(address)
-    <- res
-
-func sendMessage(peerId: PeerId, relayId: PeerId, message: string) -> string:
-    on peerId via relayId:
-        res <- MonitorService.message(message)
-    <- res
+        MonitorService.message(message)
 
 func returnResult(peerId: PeerId, relayId: PeerId, result: string):
     on peerId via relayId:
-        MonitorService.return(result)
+        MonitorService.returnResult(result)

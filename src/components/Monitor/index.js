@@ -45,7 +45,7 @@ const Monitor = ({ peerValues, wallet, openSeaResponse, raribleResponse }) => {
       let response = [];
 
       await dispatch(fetchOpenSeaAction(openSeaRequestData));
-      // await dispatch(fetchRaribleAction(raribleRequestData));
+      await dispatch(fetchRaribleAction(raribleRequestData));
 
       response = response.concat(openSeaResponse, raribleResponse);
       // Returning respone to the peer
@@ -78,9 +78,9 @@ const Monitor = ({ peerValues, wallet, openSeaResponse, raribleResponse }) => {
     return () => Unhook(window.console);
   }, []);
 
-  // Creating an interval to fetchData after every 20 seconds
+  // Creating an interval to fetchData after every 15 seconds
   useEffect(() => {
-    const fetchDataInterval = setInterval(fetchData, 20000);
+    const fetchDataInterval = setInterval(fetchData, 15000);
     return () => {
       clearInterval(fetchDataInterval);
     };
@@ -106,10 +106,14 @@ const Monitor = ({ peerValues, wallet, openSeaResponse, raribleResponse }) => {
             <span style={{ fontWeight: 600 }}>Connected Relay ID: </span>
             {peerValues.relay}
           </p>
-          <p>
-            <span style={{ fontWeight: 600 }}>Monitoring Wallet Address: </span>
-            {wallet}
-          </p>
+          {wallet?.length > 0 && (
+            <p>
+              <span style={{ fontWeight: 600 }}>
+                Monitoring Wallet Address:{' '}
+              </span>
+              {wallet}
+            </p>
+          )}
           <div className="text-info message-border">
             <Console
               logs={logs}

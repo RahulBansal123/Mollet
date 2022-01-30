@@ -20,10 +20,6 @@ const SelectRelay = ({
     status: false,
     connectingPeer: '',
   });
-  const [monitorValues, setMonitorValues] = useState({
-    peer: '',
-    relay: '',
-  });
 
   const handleConnect = useCallback(
     async (x) => {
@@ -43,16 +39,15 @@ const SelectRelay = ({
         });
         // Registering functions for the peer
         registerMonitorService({
-          monitor: (address) => {
-            console.log('start function called', address);
-            // setWalletAddress(address);
-            return true;
-          },
           message: (message) => {
-            console.info('PEER - ' + message);
-            return message;
+            const messageData = JSON.parse(message);
+            if (messageData.isWallet) {
+              setWalletAddress(messageData.message);
+            } else {
+              console.info('PEER - ' + messageData.message);
+            }
           },
-          return: (result) => {
+          returnResult: (result) => {
             console.debug(result);
           },
         });
@@ -129,10 +124,7 @@ const SelectRelay = ({
           </div>
         )}
       </div>
-      <CustomModal
-        monitorValues={monitorValues}
-        setMonitorValues={setMonitorValues}
-      />
+      <CustomModal />
     </div>
   );
 };

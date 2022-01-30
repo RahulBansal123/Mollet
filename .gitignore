@@ -11,6 +11,8 @@
 
 /.idea
 
+README.md
+
 # misc
 .DS_Store
 .env.local
