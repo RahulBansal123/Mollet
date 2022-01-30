@@ -60,6 +60,7 @@ const CustomModal = ({ isModalOpen, connectedNode }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // Returning if PeerID or RelayID is not entered
     if (!(monitorValues.peer.length > 0 && monitorValues.relay.length > 0)) {
       return;
     }

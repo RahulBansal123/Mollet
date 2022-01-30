@@ -46,9 +46,15 @@ const ChatBox = ({ peerValues }) => {
   );
 
   useEffect(() => {
-    if (peerValues.wallet.length > 0) {
+    let unmounted = false;
+
+    // Sending a message to peer to start monitoring the wallet
+    if (peerValues.wallet.length > 0 && !unmounted) {
       sendMessageHandler(true, peerValues.wallet);
     }
+    return () => {
+      unmounted = true;
+    };
   }, [peerValues, sendMessageHandler]);
 
   const handleKeyPress = (e) => {

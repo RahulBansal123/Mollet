@@ -30,6 +30,7 @@ const SelectRelay = ({
           Fluence.getStatus().isConnected ||
           Fluence.getStatus().isInitialized
         ) {
+          setWalletAddress('');
           await Fluence.stop();
         }
         // Start the peer

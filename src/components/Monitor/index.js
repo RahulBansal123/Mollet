@@ -21,6 +21,44 @@ const Monitor = ({ peerValues, wallet, openSeaResponse, raribleResponse }) => {
 
   const dispatch = useDispatch();
 
+  // Fetching results from rarible for multiple activity types
+  const fetchRaribleData = useCallback(
+    async (endTime) => {
+      let raribleResults = [];
+
+      const raribleRequestData = {
+        startTime: new Date(parseInt(startTime) * 1000).toISOString(),
+        endTime: new Date(parseInt(endTime) * 1000).toISOString(),
+        walletAddress: wallet,
+      };
+      const raribleActivityType = [
+        'TRANSFER_FROM',
+        'TRANSFER_TO',
+        'MINT',
+        'BURN',
+        'MAKE_BID',
+        'GET_BID',
+        'LIST',
+        'BUY',
+        'SELL',
+        'CANCEL_LIST',
+        'CANCEL_BID',
+      ];
+      for (let activityType of raribleActivityType) {
+        await dispatch(
+          fetchRaribleAction({
+            ...raribleRequestData,
+            type: activityType,
+          })
+        );
+        raribleResults.push(raribleResponse);
+      }
+      raribleResults = raribleResults.filter((val) => val.length);
+      return raribleResults;
+    },
+    [dispatch, raribleResponse, startTime, wallet]
+  );
+
   // Fetch the data from the rarible and opensea
   const fetchData = useCallback(async () => {
     if (wallet && wallet.length > 0) {
@@ -36,18 +74,13 @@ const Monitor = ({ peerValues, wallet, openSeaResponse, raribleResponse }) => {
         walletAddress: wallet,
       };
 
-      const raribleRequestData = {
-        startTime: new Date(parseInt(startTime) * 1000).toISOString(),
-        endTime: new Date(parseInt(endTime) * 1000).toISOString(),
-        walletAddress: wallet,
-      };
-
       let response = [];
 
       await dispatch(fetchOpenSeaAction(openSeaRequestData));
-      await dispatch(fetchRaribleAction(raribleRequestData));
+      const raribleResults = await fetchRaribleData(endTime);
 
-      response = response.concat(openSeaResponse, raribleResponse);
+      response = response.concat(openSeaResponse, raribleResults);
+
       // Returning respone to the peer
       if (response.length > 0) {
         await returnResult(
@@ -59,11 +92,11 @@ const Monitor = ({ peerValues, wallet, openSeaResponse, raribleResponse }) => {
       setStartTime(endTime);
     }
   }, [
-    startTime,
     wallet,
+    startTime,
     dispatch,
+    fetchRaribleData,
     openSeaResponse,
-    raribleResponse,
     peerValues.peer,
     peerValues.relay,
   ]);
@@ -78,14 +111,15 @@ const Monitor = ({ peerValues, wallet, openSeaResponse, raribleResponse }) => {
     return () => Unhook(window.console);
   }, []);
 
-  // Creating an interval to fetchData after every 15 seconds
+  // Creating an interval to fetchData after every 10 seconds
   useEffect(() => {
-    const fetchDataInterval = setInterval(fetchData, 15000);
+    const fetchDataInterval = setInterval(fetchData, 10000);
     return () => {
       clearInterval(fetchDataInterval);
     };
   }, [fetchData]);
 
+  // Redirect to the home page if not connected
   if (!Fluence.getStatus().isConnected) {
     return <Redirect to="/" />;
   }

@@ -12,12 +12,10 @@ export const fetchOpenSeaAction = (data) => {
       )
       .then((res) => {
         const result = [];
-        if (res.data.asset_events.length > 0) {
-          for (let field of res.data.asset_events) {
-            result.push(
-              `Event: ${field.event_type}, Payment Token Used: ${field.payment_token?.symbol}, Contract Address: ${field.contract_address}, Quantity:${field.quantity}, Transaction Block Hash: ${field.transaction?.block_hash} , Created At: ${field.created_date}`
-            );
-          }
+        for (let field of res.data.asset_events) {
+          result.push(
+            `OPENSEA - Event: ${field.event_type}, Payment Token Used: ${field.payment_token?.symbol}, Contract Address: ${field.contract_address}, Quantity:${field.quantity}, Transaction Block Hash: ${field.transaction?.block_hash} , Created At: ${field.created_date}`
+          );
         }
         dispatch({
           type: ActionTypes.OPENSEA_FETCH_SUCCESS,
@@ -42,15 +40,12 @@ export const fetchRaribleAction = (data) => {
       )
       .then((res) => {
         const result = [];
-        console.log(res);
-        for (let field of res.data.activities) {
-          result.push(
-            `Event: ${field.event_type}, Payment Token Used: ${field.payment_token}, Total Price: ${field.total_price}, Created At: ${field.created_date}`
-          );
+        for (let _ of res.data.activities) {
+          result.push(`RARIBLE - Event: ${data.type}`);
         }
         dispatch({
           type: ActionTypes.RARIBLE_FETCH_SUCCESS,
-          payload: res.data,
+          payload: result,
         });
       })
       .catch((err) => {
