@@ -1,0 +1,5 @@
+.message-border {
+	border: 1px solid #ced4da;
+	border-radius: 0.25rem;
+	overflow: hidden;
+}
