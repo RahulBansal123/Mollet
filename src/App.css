@@ -1,0 +1,20 @@
+.page-container {
+	width: 50%;
+	background-color: #fff;
+	border-radius: 8px;
+	box-shadow: 0 0rem 0.4rem -0.1rem rgba(0, 0, 0, 0.1);
+	margin-top: 30px;
+}
+
+.no-scrollbar {
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+	display: none;
+}
+
+.ReactModal__Overlay {
+	background-color: rgba(0, 0, 0, 0.4) !important;
+}
