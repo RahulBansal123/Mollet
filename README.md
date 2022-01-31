@@ -2,6 +2,8 @@
 
 Mollet is the web3 application to monitor the custodial wallets for trade activities of NFTs on platforms like OpenSea and Rarible.
 
+Youtube link: https://youtu.be/rOgd8f0aCY4
+
 ## Installation
 
 ### Testnet
