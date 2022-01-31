@@ -1,6 +1,6 @@
 import "@fluencelabs/aqua-lib/builtin.aqua"
 
-service MonitorService("HelloPeer"):
+service MonitorService("NFTMonitor"):
     message(message: string)
     returnResult(result: string)
     

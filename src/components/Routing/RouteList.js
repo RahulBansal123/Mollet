@@ -6,20 +6,21 @@ const Monitor = lazy(() => import('../Monitor'));
 
 // layout => Header is visible or not
 
+// List of all the routes
 export const RouteList = [
-	{
-		link: '/',
-		layout: true,
-		render: () => <SelectRelay />,
-	},
-	{
-		link: '/monitor',
-		layout: true,
-		render: () => <Monitor />,
-	},
-	{
-		link: '/404',
-		layout: true,
-		render: () => <NotFound />,
-	},
+  {
+    link: '/',
+    layout: true,
+    render: () => <SelectRelay />,
+  },
+  {
+    link: '/monitor',
+    layout: true,
+    render: () => <Monitor />,
+  },
+  {
+    link: '/404',
+    layout: true,
+    render: () => <NotFound />,
+  },
 ];

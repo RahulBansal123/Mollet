@@ -2,6 +2,7 @@ import axios from '../axios';
 import * as ActionTypes from '../ActionTypes';
 import { openSeaUrl, raribleUrl } from '../Urls';
 
+// Action to fetch data from Opensea
 export const fetchOpenSeaAction = (data) => {
   return async (dispatch) => {
     dispatch({ type: ActionTypes.OPENSEA_FETCH_REQUEST });
@@ -31,6 +32,7 @@ export const fetchOpenSeaAction = (data) => {
   };
 };
 
+// Action to fetch data from Rarible
 export const fetchRaribleAction = (data) => {
   return async (dispatch) => {
     dispatch({ type: ActionTypes.RARIBLE_FETCH_REQUEST });
